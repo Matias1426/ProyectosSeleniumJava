@@ -1,0 +1,163 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>grupoYoutube</groupId>
+  <artifactId>TestAutomationMercury</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Automation Mercury</name>
+  <description>Proyecto de atomatizacion</description>
+  <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<!-- ################################################################################# -->
+		<junit.version>4.12</junit.version>
+		<selenium.version>3.141.59</selenium.version>
+		<!-- ################################################################################# -->
+		<jetty.http.port>9100</jetty.http.port>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<allure.version>1.4.24.RC3</allure.version>
+		<aspectj.version>1.8.12</aspectj.version>
+	</properties>
+  
+	<dependencies>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180813</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/ru.yandex.qatools.allure/allure-junit-adaptor -->
+		<dependency>
+			<groupId>ru.yandex.qatools.allure</groupId>
+			<artifactId>allure-junit-adaptor</artifactId>
+			<version>1.5.4</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>9.4.19.v20190610</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+<dependency>
+    <groupId>org.testng</groupId>
+    <artifactId>testng</artifactId>
+    <version>7.0.0</version>
+    <scope>test</scope>
+</dependency>
+		
+
+		<!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-junit4 -->
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-junit4</artifactId>
+			<version>2.6.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-junit-platform -->
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-junit-platform</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+
+		<!-- ############################################################################### -->
+
+
+		<dependency>
+			<groupId>ru.yandex.qatools.allure</groupId>
+			<artifactId>allure-junit-adaptor</artifactId>
+			<version>${allure.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+<dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.6</version>
+</dependency>
+		
+
+	</dependencies>
+
+	<!-- Build -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<!-- does not work <artifactId>maven-failsafe-plugin</artifactId> -->
+				<version>2.19.1</version>
+				<configuration>
+					<argLine>
+						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+					</argLine>
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>ru.yandex.qatools.allure.junit.AllureRunListener</value>
+						</property>
+					</properties>
+				</configuration>
+				<dependencies>
+					<!--<dependency> need with failsafe <groupId>org.apache.maven.surefire</groupId> 
+						<artifactId>surefire-junit47</artifactId> <version>2.19.1</version> </dependency> -->
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjweaver</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.3.7.v20160115</version>
+				<configuration>
+					<webAppSourceDirectory>${project.build.directory}/site/allure-maven-plugin</webAppSourceDirectory>
+					<httpConnector>
+						<port>${jetty.http.port}</port>
+					</httpConnector>
+					<stopKey>stop</stopKey>
+					<stopPort>1234</stopPort>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!-- Report -->
+	<reporting>
+		<excludeDefaults>true</excludeDefaults>
+		<plugins>
+			<plugin>
+				<groupId>ru.yandex.qatools.allure</groupId>
+				<artifactId>allure-maven-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+		</plugins>
+	</reporting>
+</project>
